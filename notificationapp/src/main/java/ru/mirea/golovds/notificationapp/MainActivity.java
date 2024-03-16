@@ -37,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
             }
-        }
+//        }
     }
 
 
@@ -62,15 +62,13 @@ public class MainActivity extends AppCompatActivity {
         builder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelID);
-            if (notificationChannel == null) {
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                notificationChannel = new NotificationChannel(channelID, "Description", importance);
-                notificationChannel.setLightColor(Color.GREEN);
-                notificationChannel.enableVibration(true);
-                notificationManager.createNotificationChannel(notificationChannel);
-            }
+        NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelID);
+        if (notificationChannel == null) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            notificationChannel = new NotificationChannel(channelID, "Description", importance);
+            notificationChannel.setLightColor(Color.GREEN);
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
         }
         notificationManager.notify(0, builder.build());
     }
